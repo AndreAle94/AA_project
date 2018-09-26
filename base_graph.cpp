@@ -21,6 +21,8 @@ BaseGraph::BaseGraph(int vertices_count) {
             this->edge_matrix[i][j] = nullptr;
         }
     }
+    // initialize debug as disabled
+    this->verbose = false;
 }
 
 BaseGraph::~BaseGraph() {
@@ -101,8 +103,10 @@ void BaseGraph::setVerbose(bool verbose) {
 
 void BaseGraph::preProcess(int s, int t) {
     // the label of the source vertex is set to the number of vertices
-    // the label of all the other vertices (different from s) is already set to 0
-    this->vertices[s].label = (int) vertices.size();
+    // the label of all the other vertices (different from s) is set to 0
+    for (int i = 0; i < this->vertices.size(); i++) {
+        this->vertices[i].label = (i != s) ? 0 : (int) vertices.size();
+    }
     // for each edge that goes from source to another vertex, the flow is set equal
     // to the capacity and the excess of the destination vertex is set to the capacity
     for (int i = 0; i < this->vertices.size(); i++) {
